@@ -10,7 +10,6 @@
             v-model="username"
             type="text"
             class="mt-1 block w-full border border-gray-300 rounded p-2"
-            placeholder="admin_test"
           />
         </div>
         <div>
@@ -20,7 +19,6 @@
             v-model="password"
             type="password"
             class="mt-1 block w-full border border-gray-300 rounded p-2"
-            placeholder="Test@eiei555"
           />
         </div>
         <div v-if="errorMessage" class="text-red-500 text-sm">{{ errorMessage }}</div>
@@ -37,19 +35,16 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { useRouter } from 'vue-router'
-
-const router = useRouter()
+// ใน Nuxt 3 เรายังสามารถใช้ useRouter ได้ แต่แนะนำใช้ navigateTo จะตรงกับ API ของ Nuxt มากกว่า
 const username = ref('')
 const password = ref('')
 const errorMessage = ref('')
 
-const onSubmit = () => {
-  // ตรวจสอบว่าตรงกับ admin_test / Test@eiei555 หรือไม่
+const onSubmit = async () => {
   if (username.value === 'admin_test' && password.value === 'Test@eiei555') {
     errorMessage.value = ''
-    // ถ้า login ถูก ให้นำทางไปหน้า /form
-    router.push('/form')
+    // ใช้ navigateTo แทน router.push
+    await navigateTo('/form')
   } else {
     errorMessage.value = 'Username หรือ Password ไม่ถูกต้อง'
   }
